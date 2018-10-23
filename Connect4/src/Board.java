@@ -2,13 +2,14 @@ import java.util.ArrayList;
 
 public class Board {
 	Square[][] board;
-	ArrayList<String> log = new ArrayList<>();
+	ArrayList<String> log;
 	int turn;
 	
 	/**
 	 * Initialize the board with col and row labels with the rest '-'
 	 */
 	public Board() {
+		log = new ArrayList<>();
 		board = new Square[9][9];
 		board[0][0] = new Square(' ');
 		board[1][0] = new Square('A');
@@ -39,12 +40,30 @@ public class Board {
 		}
 	}
 	/**
-	 * places one square onto the board.
+	 * Copy constructor
+	 * @param b original board b
+	 */
+	Board(Board b){
+		board = new Square[9][9];
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				board[i][j] = new Square(b.board[i][j]);
+			}
+		}
+	}
+	
+	
+	/**
+	 * places one square onto the board. Made to take in
+	 * a square passed by abPruning
 	 * @param move
 	 */
 	public void placeSquare(Square move) {
 		board[move.posX][move.posY] = move;
+		
 	}
+	
+	
 	
 	/**
 	 * prints just the board. Used for testing, as it does not print the
@@ -59,6 +78,9 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Prints display of board with move log adjacent to the right.
+	 */
 	public void printDisplay() {
 		
 		for (int i = 0; i < 9; i++) {
