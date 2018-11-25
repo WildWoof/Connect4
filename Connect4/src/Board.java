@@ -78,7 +78,7 @@ public class Board {
 	public int scoreMove(Square move) {
 		int score = 0;
 		
-		//3rd highest points given, if made you win next turn.
+		//Rank 3: 3rd highest points given, if made you win next turn.
 		if (checkKillerMoveRow(move)) {
 			//adding 100,000
 			score += 100000;
@@ -89,17 +89,42 @@ public class Board {
 			score += 100000;
 		}
 		
-		//2nd highest points given. Can't win if you lose.
+		//Rank2: 2nd highest points given. Can't win if you lose.
 		if (stopWinningMove(move)) {
 			//adding 1,000,000
 			score +=1000000;
 		}
 		
-		//greatest points given. You win, game over.
+		//Rank1: greatest points given. You win, game over.
 		if (makeWinningMove(move)) {
 			//adding 10,000,000
 			score += 10000000;
 		}
+		
+		//Rank 4: less than make killer move since making a killer move leads to a win,
+		//and this stops a killer row from being made, but does not lead to a win.
+		if (stopKillerRow(move)) {
+			//adding 10,000
+			score += 10000;
+		}
+		//Rank 4:
+		if (stopKillerCol(move)) {
+			//adding 10,000
+			score += 10000;
+		}
+		
+//		//Rank 5: If opponent is close to setting up a sure win,
+//		//then try to set up a win.
+//		if (setupKillerRow(move)) {
+//			//adding 1,000
+//			score += 1000;
+//		}
+//		
+//		//Rank 5:
+//		if (setupKillerCol(move)) {
+//			//adding 1,000
+//			score += 1000;
+//		}
 		
 		//test output. DELETE LATER
 		System.out.println(score);
@@ -248,6 +273,65 @@ public class Board {
 		return false;
 	}
 	
+	/**
+	 * This checks a row for two patterns that are 1 move away from being a killer move
+	 * Those patterns are -CC- and -C-C-. This checks if the move blocks it.
+	 * @param move the move being scored
+	 * @return true if it stops a killer row, false otherwise
+	 */
+	public boolean stopKillerRow(Square move) {
+		int x = move.posX;
+		int y = move.posY;
+		for (int i = 2; i < 7; i++) {
+			//Checks for the -C which is the start of a killer row
+			if(board[x][i].getDisplay() == move.getEnemy() && board[x][i-1].getDisplay() == '-') {
+				//checks for -C C-, which sets up a killer Row. Returns true if blocks an empty space
+				if (board[x][i+1].getDisplay() == move.getEnemy() && board[x][i+2].getDisplay() == '-' 
+						&& (y == i-1  || y== i+2)) {
+					return true;
+				//checks for -C -C-, another killer row setup
+				} else if ( i < 6 && board[x][i+1].getDisplay() == '-' 
+						&& board[x][i+2].getDisplay() == move.getEnemy() 
+						&& board[x][i+3].getDisplay() == '-'
+						&& (y ==i-1 || y== i+1 || y== i+3)) {
+					return true;
+				}
+			}
+			
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * This checks a col for two patterns that are 1 move away from being a killer move
+	 * Those patterns are -CC- and -C-C-. This checks if the move blocks it.
+	 * @param move the move being scored
+	 * @return true if it stops a killer row, false otherwise
+	 */
+	public boolean stopKillerCol(Square move) {
+		int x = move.posX;
+		int y = move.posY;
+		for (int i = 2; i < 7; i++) {
+			//Checks for the -C which is the start of a killer row
+			if(board[i][y].getDisplay() == move.getEnemy() && board[i-1][y].getDisplay() == '-') {
+				//checks for -C C-, which sets up a killer Row. Returns true if blocks an empty space
+				if (board[i+1][y].getDisplay() == move.getEnemy() && board[i+2][y].getDisplay() == '-' 
+						&& (x == i-1  || x== i+2)) {
+					return true;
+				//checks for -C -C-, another killer row setup
+				} else if ( i < 6 && board[x][i+1].getDisplay() == '-' 
+						&& board[i+2][y].getDisplay() == move.getEnemy() 
+						&& board[i+3][y].getDisplay() == '-'
+						&& (x ==i-1 || x== i+1 || x== i+3)) {
+					return true;
+				}
+			}
+			
+		}
+		
+		return false;
+	}	
 	
 	/**
 	 * prints just the board. Used for testing, as it does not print the
