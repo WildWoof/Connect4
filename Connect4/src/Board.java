@@ -79,7 +79,12 @@ public class Board {
 		int score = 0;
 		
 		//3rd highest points given, if made you win next turn.
-		if (checkKillerMove(move)) {
+		if (checkKillerMoveRow(move)) {
+			//adding 100,000
+			score += 100000;
+		}
+		
+		if(checkKillerMoveCol(move)) {
 			//adding 100,000
 			score += 100000;
 		}
@@ -110,7 +115,7 @@ public class Board {
 	 * A killer move looks like -CCC-. Where - is an available move to win.
 	 * @param move
 	 */
-	public boolean checkKillerMove(Square move) {
+	public boolean checkKillerMoveRow(Square move) {
 		int x = move.posX;
 		int y = move.posY;
 		
@@ -130,7 +135,24 @@ public class Board {
 					return true;
 				}
 			}
-			//check col
+		}		
+		return false;
+	}
+
+	/**
+	 * Checks to see if this leads to a killer move on a column
+	 * @param move the move being scored
+	 * @return true if this results in a killer more, false otherwise
+	 */
+	public boolean checkKillerMoveCol(Square move) {
+		int x = move.posX;
+		int y = move.posY;
+		
+		//checks the col for a 3 in a row
+		for (int i = 1; i < 6; i++) {
+			//checks for the first character of move, or until the move is reached.
+			// and if there is enough room for there to be two move of the same 
+			//move followed by a space -(current)CC-
 			if (board[i][y].getDisplay() == move.getDisplay() || i == x) {
 				//checks if there is a blank space before the square
 				if(board[i-1][x].getDisplay() == '-' 
@@ -144,7 +166,7 @@ public class Board {
 			}
 		}		
 		return false;
-	}
+	}	
 	
 	/**
 	 * Second highest score awarded to stopping an opponent's winning move.
