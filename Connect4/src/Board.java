@@ -77,13 +77,26 @@ public class Board {
 	
 	public int scoreMove(Square move) {
 		int score = 0;
+		
+		//3rd highest points given, if made you win next turn.
 		if (checkKillerMove(move)) {
+			//adding 100,000
 			score += 100000;
 		}
 		
+		//2nd highest points given. Can't win if you lose.
 		if (stopWinningMove(move)) {
+			//adding 1,000,000
 			score +=1000000;
 		}
+		
+		//greatest points given. You win, game over.
+		if (makeWinningMove(move)) {
+			//adding 10,000,000
+			score += 10000000;
+		}
+		
+		//test output. DELETE LATER
 		System.out.println(score);
 		
 		
@@ -144,11 +157,11 @@ public class Board {
 		int x = move.posX;
 		int y = move.posY;
 		
-		//checks the row for an enemy winning move in a row
-		for (int i = 1; i < 5; i++) {
-			//checks for the first enemy character and checks to see if
+		//checks the row for an enemy winning move in a row. i<5 makes sure there is room.
+		for (int i = 1; i < 6; i++) {
+			//checks for the first  character and checks to see if
 			// there is a winning move in that range. If there is a spot
-			//where there is a winning move, and it can stop it, will return true.
+			//where there is a winning move, and it can make it, will return true.
 			if (board[x][i].getDisplay() == move.getEnemy() || (i == y && board[x][i].getDisplay() == '-')) {
 				
 				// Checking for a winning enemy move. if i == y then that is the move.
@@ -174,7 +187,44 @@ public class Board {
 		return false;
 	}
 	
-	
+	/**
+	 * Checks both vertically and horizontally for a winning move to be made
+	 * @param move the move being made
+	 * @return true if there is a winning move, false otherwise
+	 */
+	public boolean makeWinningMove(Square move) {
+		int x = move.posX;
+		int y = move.posY;
+		
+		//checks the row for an enemy winning move in a row
+		for (int i = 1; i < 6; i++) {
+			//checks for the first  character and checks to see if
+			// there is a winning move in that range. If there is a spot
+			//where there is a winning move, and it can take it, will return true.
+			if (board[x][i].getDisplay() == move.getDisplay() || (i == y && board[x][i].getDisplay() == '-')) {
+				
+				// Checking for a winning enemy move. if i == y then that is the move.
+				if((board[x][i+1].getDisplay() == move.getDisplay() || (i+1 == y && board[x][i+1].getDisplay() == '-'))
+						&& (board[x][i+2].getDisplay() == move.getDisplay() || (i+2 == y && board[x][i+2].getDisplay() == '-'))
+						&& (board[x][i+3].getDisplay() == move.getDisplay() || (i+3 ==y && board[x][i+3].getDisplay() == '-'))) {
+					return true;
+				}
+			}
+			//checks col
+			if (board[i][y].getDisplay() == move.getDisplay() || (i == x && board[i][y].getDisplay() == '-')) {
+				
+				// Checking for a winning  move. if i == x then that is the move.
+				if((board[i+1][y].getDisplay() == move.getDisplay() || (i+1 == x && board[i+1][y].getDisplay() == '-'))
+						&& (board[i+2][y].getDisplay() == move.getDisplay() || (i+2 == x && board[i+2][y].getDisplay() == '-'))
+						&& (board[i+3][y].getDisplay() == move.getDisplay() || (i+3 ==x && board[i+3][y].getDisplay() == '-'))) {
+					return true;
+				}
+			}			
+			
+		}
+		
+		return false;
+	}
 	
 	
 	/**
