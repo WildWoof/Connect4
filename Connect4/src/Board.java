@@ -38,6 +38,12 @@ public class Board {
 				}
 			}
 		}
+		
+//		//Test of killermove successful.
+//		board [2][1] = new Square('X');
+//		board [3][1] = new Square('X');
+//		Square test = new Square('X', 4, 1);
+//		scoreMove(test);
 	}
 	/**
 	 * Copy constructor
@@ -61,6 +67,72 @@ public class Board {
 	public void placeSquare(Square move) {
 		board[move.posX][move.posY] = move;
 		
+	}
+	
+	/**
+	 * Takes in the coordinates of a move and determines the score
+	 * given by that square. The higher the score the better the move.
+	 * @return
+	 */
+	
+	public int scoreMove(Square move) {
+		int score = 0;
+		if (checkKillerMove(move)) {
+			score += 100000;
+		}
+		System.out.println(score);
+		
+		
+		return score;
+	}
+	
+	/**
+	 * checks the squares next to the move and checks if this
+	 * will result in a move that will always lead to a win.
+	 * Uses the char value in move. Returns true if there is a killer move.
+	 * A killer move looks like -CCC-. Where - is an available move to win.
+	 * @param move
+	 */
+	public boolean checkKillerMove(Square move) {
+		int x = move.posX;
+		int y = move.posY;
+		
+		//checks the row for a 3 in a row
+		for (int i = 1; i < 9; i++) {
+			//checks for the first character of move, or until the move is reached.
+			// and if there is enough room for there to be two move of the same 
+			//move followed by a space -(current)CC-
+			if ((board[x][i].getDisplay() == move.getDisplay() || i == y) && i < 6) {
+				//checks if there is a blank space before the square
+				if(board[x][i-1].getDisplay() == '-' 
+						//continues Checking for 3C in a row. if i == y then that is the move.
+						&& (board[x][i+1].getDisplay() == move.getDisplay() || i+1 == y)
+						&& (board[x][i+2].getDisplay() == move.getDisplay() || i+2 == y)
+						//checks for space at the end.
+						&& board[x][i+3].getDisplay() == '-') {
+					return true;
+				}
+			}
+		}
+		//check col
+		for (int i = 1; i < 9; i++) {
+			//checks for the first character of move, or until the move is reached.
+			// and if there is enough room for there to be two move of the same 
+			//move followed by a space -(current)CC-
+			if ((board[i][y].getDisplay() == move.getDisplay() || i == x) && i < 6) {
+				//checks if there is a blank space before the square
+				if(board[i-1][x].getDisplay() == '-' 
+						//continues Checking for 3C in a row. if i == x then that is the move.
+						&& (board[i+1][y].getDisplay() == move.getDisplay() || i+1 == x)
+						&& (board[i+2][y].getDisplay() == move.getDisplay() || i+2 == x)
+						//checks for space at the end.
+						&& board[i+3][y].getDisplay() == '-') {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	

@@ -5,6 +5,7 @@ public class Square {
 	int posX;
 	int posY;
 	String boardPosition;
+	int score;
 
 	public Square() {
 		display = '-';

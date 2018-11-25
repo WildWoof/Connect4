@@ -7,7 +7,7 @@ public class abPruning {
 	}
 
 	public Square abSearch() {
-		
+		Square bestMove = 
 	}
 	
 	public int maxValue() {
@@ -17,4 +17,6 @@ public class abPruning {
 	public int minValue() {
 		
 	}
+	
+	
 }
