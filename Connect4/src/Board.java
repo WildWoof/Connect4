@@ -40,9 +40,9 @@ public class Board {
 		}
 		
 //		//Test of killermove successful.
-//		board [2][1] = new Square('X');
-//		board [3][1] = new Square('X');
-//		Square test = new Square('X', 4, 1);
+//		board [1][6] = new Square('X');
+//		board [1][7] = new Square('X');
+//		Square test = new Square('X', 1, 5);
 //		scoreMove(test);
 	}
 	/**
@@ -80,6 +80,10 @@ public class Board {
 		if (checkKillerMove(move)) {
 			score += 100000;
 		}
+		
+		if (stopWinningMove(move)) {
+			score +=1000000;
+		}
 		System.out.println(score);
 		
 		
@@ -98,11 +102,11 @@ public class Board {
 		int y = move.posY;
 		
 		//checks the row for a 3 in a row
-		for (int i = 1; i < 9; i++) {
+		for (int i = 1; i < 6; i++) {
 			//checks for the first character of move, or until the move is reached.
 			// and if there is enough room for there to be two move of the same 
 			//move followed by a space -(current)CC-
-			if ((board[x][i].getDisplay() == move.getDisplay() || i == y) && i < 6) {
+			if (board[x][i].getDisplay() == move.getDisplay() || i == y) {
 				//checks if there is a blank space before the square
 				if(board[x][i-1].getDisplay() == '-' 
 						//continues Checking for 3C in a row. if i == y then that is the move.
@@ -113,13 +117,8 @@ public class Board {
 					return true;
 				}
 			}
-		}
-		//check col
-		for (int i = 1; i < 9; i++) {
-			//checks for the first character of move, or until the move is reached.
-			// and if there is enough room for there to be two move of the same 
-			//move followed by a space -(current)CC-
-			if ((board[i][y].getDisplay() == move.getDisplay() || i == x) && i < 6) {
+			//check col
+			if (board[i][y].getDisplay() == move.getDisplay() || i == x) {
 				//checks if there is a blank space before the square
 				if(board[i-1][x].getDisplay() == '-' 
 						//continues Checking for 3C in a row. if i == x then that is the move.
@@ -130,10 +129,51 @@ public class Board {
 					return true;
 				}
 			}
+		}		
+		return false;
+	}
+	
+	/**
+	 * Second highest score awarded to stopping an opponent's winning move.
+	 * Checks each row and column and checks if the move would stop a win.
+	 * 
+	 * @param move the tile that will be placed by this move
+	 * @return true if a killer move is found and blocked by this move. false otherwise
+	 */
+	public boolean stopWinningMove(Square move) {
+		int x = move.posX;
+		int y = move.posY;
+		
+		//checks the row for an enemy winning move in a row
+		for (int i = 1; i < 5; i++) {
+			//checks for the first enemy character and checks to see if
+			// there is a winning move in that range. If there is a spot
+			//where there is a winning move, and it can stop it, will return true.
+			if (board[x][i].getDisplay() == move.getEnemy() || (i == y && board[x][i].getDisplay() == '-')) {
+				
+				// Checking for a winning enemy move. if i == y then that is the move.
+				if((board[x][i+1].getDisplay() == move.getEnemy() || (i+1 == y && board[x][i+1].getDisplay() == '-'))
+						&& (board[x][i+2].getDisplay() == move.getEnemy() || (i+2 == y && board[x][i+2].getDisplay() == '-'))
+						&& (board[x][i+3].getDisplay() == move.getEnemy() || (i+3 ==y && board[x][i+3].getDisplay() == '-'))) {
+					return true;
+				}
+			}
+			//checks col
+			if (board[i][y].getDisplay() == move.getEnemy() || (i == x && board[i][y].getDisplay() == '-')) {
+				
+				// Checking for a winning enemy move. if i == x then that is the move.
+				if((board[i+1][y].getDisplay() == move.getEnemy() || (i+1 == x && board[i+1][y].getDisplay() == '-'))
+						&& (board[i+2][y].getDisplay() == move.getEnemy() || (i+2 == x && board[i+2][y].getDisplay() == '-'))
+						&& (board[i+3][y].getDisplay() == move.getEnemy() || (i+3 ==x && board[i+3][y].getDisplay() == '-'))) {
+					return true;
+				}
+			}			
+			
 		}
 		
 		return false;
 	}
+	
 	
 	
 	

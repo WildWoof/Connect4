@@ -1,7 +1,13 @@
 
 public class Square {
 	boolean isFilled;
+	//display is X, O, or - in the graph. The
+	//0 indexed row and columns are auto filled with custom
+	//labels to each row or col.
 	char display;
+	//enemy is the opposite of X or O, whatever this square is not.
+	//only initialized if X or O is assigned.
+	char enemy;
 	int posX;
 	int posY;
 	String boardPosition;
@@ -19,6 +25,11 @@ public class Square {
 		} else {
 			isFilled = true;
 		}
+		if ( c == 'X') {
+			enemy = 'O';
+		} else if (c == 'O') {
+			enemy = 'X';
+		}
 	}
 
 	public Square(char c, int x, int y) {
@@ -30,6 +41,11 @@ public class Square {
 		}
 		posX = x;
 		posY = y;
+		if ( c == 'X') {
+			enemy = 'O';
+		} else if (c == 'O') {
+			enemy = 'X';
+		}
 	}
 	
 	/**
@@ -45,6 +61,11 @@ public class Square {
 	//display is the X, O, or - on the screen
 	public char getDisplay() {
 		return display;
+	}
+	
+	//enemy is the opposite of X or O. 
+	public char getEnemy() {
+		return enemy;
 	}
 
 	/**
