@@ -504,6 +504,7 @@ public class Board {
 		for (int i = 0; i < 9; i++) {
 			System.out.print(board[0][i].getDisplay() + " ");
 		}
+		System.out.println();
 		
 		//System.out.println("\t Player vs Opponent");
 		

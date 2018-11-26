@@ -17,7 +17,6 @@ public class abPruning {
 	public Square abSearch(Board state) {
 		Square move = maxValue(state,-1000000000, 1000000000);
 		
-		//Square bestMove = 
 		return move;
 	}
 	
