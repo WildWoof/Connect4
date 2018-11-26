@@ -417,7 +417,7 @@ public class Board {
 	}
 	
 	/**
-	 * Prints display of board with move log adjacent to the right.
+	 * Prints display of board.
 	 */
 	public void printDisplay() {
 		
@@ -425,7 +425,7 @@ public class Board {
 			System.out.print(board[0][i].getDisplay() + " ");
 		}
 		
-		System.out.println("\t Player vs Opponent");
+		//System.out.println("\t Player vs Opponent");
 		
 		for (int i = 0; i < 9; i++) {
 			System.out.print(board[1][i].getDisplay() + " ");
