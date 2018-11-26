@@ -131,8 +131,17 @@ public class Board {
 			score+= 100;
 		}
 		
-		//test output. DELETE LATER
-		System.out.println(score);
+		//Rank 7: Bias towards center squares, primarily relied on in early turns
+		//The rows D and E will always have at least one of them in a vertical answer.
+		//The cols e and 5 will always have at least one of them in a horizontal answer.
+		//Because of this the center 4 squares are the best starting moves.
+		if (centralRows(move)) {
+			score += 10;
+		}
+		
+		if(centralCols(move)) {
+			score += 10;
+		}
 		
 		
 		return score;
@@ -482,6 +491,31 @@ public class Board {
 				
 		return false;
 	}
+	
+	
+	/**
+	 * Tests to see if the move is in row D or E
+	 * @param move the move being tested
+	 * @return true if the move is in the center rows
+	 */
+	 public boolean centralRows(Square move) {
+		 if (move.posX == 4 || move.posX == 5) {
+			 return true;
+		 }
+		 return false;
+	 }
+	 
+	 /**
+	  * Test to see if the move is in column 4 or 5
+	  * @param move the move being tested
+	  * @return true if te move is in the center cols
+	  */
+	 public boolean centralCols(Square move) {
+		 if (move.posY == 4 || move.posY == 5) {
+			 return true;
+		 }
+		 return false;
+	 }
 	
 	/**
 	 * prints just the board. Used for testing, as it does not print the
