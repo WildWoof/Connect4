@@ -64,6 +64,7 @@ public class Main
 
 	private static void startNewGame()
 	{
+		String[][] history = new String[2][64];
 		scan.nextLine();
 		String goesFirst = null;
 		boolean invalidInput = true, computerFirst = false;
@@ -98,12 +99,33 @@ public class Main
 
 		Board board = new Board();
 		board.printDisplay();
+		
 		int turnCounter = 0;
 
-		System.out.println();
-		System.out.println("Player vs. Opponent");
-		turnCounter++;
-		System.out.print(turnCounter + ".");
+		if(computerFirst)
+		{
+			System.out.println();
+			System.out.println("Player vs. Opponent");
+			turnCounter++;
+			System.out.print(turnCounter + ".");
+			//generate computer move
+			//update history
+			//print
+			//loop between two starting with opponent
+		}
+		else
+		{
+			System.out.println();
+			System.out.println("Opponent vs. Player");
+			turnCounter++;
+			System.out.print(turnCounter + ".");
+			//input opponent move
+			//update history
+			//print
+			//loop between two starting with player
+		}
+		
+		
 
 
 	}
