@@ -7,15 +7,20 @@ public class abPruning {
 	}
 
 	public Square abSearch() {
-		Square bestMove = 
+		//TODO
+		
+		//Square bestMove = 
+		return null;
 	}
 	
 	public int maxValue() {
-		
+		//TODO
+		return 0;
 	}
 	
 	public int minValue() {
-		
+		//TODO
+		return 0;
 	}
 	
 	
