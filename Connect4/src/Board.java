@@ -113,8 +113,7 @@ public class Board {
 			score += 10000;
 		}
 		
-		//Rank 5: If opponent is close to setting up a sure win,
-		//then try to set up a win.
+		//Rank 5: Always try to set up a killer move as its the only way to win
 		if (setupKillerRow(move)) {
 			//adding 1,000
 			score += 1000;
@@ -124,6 +123,12 @@ public class Board {
 		if (setupKillerCol(move)) {
 			//adding 1,000
 			score += 1000;
+		}
+		
+		//Rank 6: Force Block when not setting up to win. 
+		//Better to be on the offensive than to be the reactionary player stopping wins 
+		if (forceBlock(move)) {
+			score+= 100;
 		}
 		
 		//test output. DELETE LATER
@@ -402,6 +407,81 @@ public class Board {
 		
 		return false;
 	}	
+	
+	/**
+	 * Checks if the move forces a block. In form -CCC, CCC-, C-CC or CC-C
+  	 * @param move the move being checked if it forces a block
+	 * @return true if it does force a block false otherwise.
+	 */
+	public boolean forceBlock(Square move) {
+		int x = move.posX;
+		int y = move.posY;
+		for(int i = 1; i < 6; i++) {
+			//check for -CCC
+			//row
+			if (board[x][i].getDisplay()== '-' 
+					&& (board[x][i+1].getDisplay()== move.getDisplay() || y == i +1)
+					&& (board[x][i+2].getDisplay()== move.getDisplay() || y == i +2)
+					&& (board[x][i+3].getDisplay()== move.getDisplay() || y == i +3)) {
+				return true;
+			}
+			//col
+			if (board[i][y].getDisplay()== '-' 
+					&& (board[i+1][y].getDisplay()== move.getDisplay() || x == i +1)
+					&& (board[i+2][y].getDisplay()== move.getDisplay() || x == i +2)
+					&& (board[i+3][y].getDisplay()== move.getDisplay() || x == i +3)) {
+				return true;
+			}
+			//check for CCC-
+			//row
+			if (board[x][i+3].getDisplay()== '-' 
+					&& (board[x][i].getDisplay()== move.getDisplay() || y == i)
+					&& (board[x][i+1].getDisplay()== move.getDisplay() || y == i +1)
+					&& (board[x][i+2].getDisplay()== move.getDisplay() || y == i +2)) {
+				return true;
+			}
+			//col
+			if (board[i+3][y].getDisplay()== '-' 
+					&& (board[i][y].getDisplay()== move.getDisplay() || x == i)
+					&& (board[i+1][y].getDisplay()== move.getDisplay() || x == i +1)
+					&& (board[i+2][y].getDisplay()== move.getDisplay() || x == i +2)) {
+				return true;
+			}
+			
+			
+			//check for C-CC
+			if (board[x][i+1].getDisplay()== '-' 
+					&& (board[x][i].getDisplay()== move.getDisplay() || y == i)
+					&& (board[x][i+2].getDisplay()== move.getDisplay() || y == i +2)
+					&& (board[x][i+3].getDisplay()== move.getDisplay() || y == i +3)) {
+				return true;
+			}
+			
+			if (board[i+1][y].getDisplay()== '-' 
+					&& (board[i][y].getDisplay()== move.getDisplay() || x == i)
+					&& (board[i+2][y].getDisplay()== move.getDisplay() || x == i +2)
+					&& (board[i+3][y].getDisplay()== move.getDisplay() || x == i +3)) {
+				return true;
+			}
+			
+			//check for CC-C
+			if (board[x][i+2].getDisplay()== '-' 
+					&& (board[x][i].getDisplay()== move.getDisplay() || y == i)
+					&& (board[x][i+1].getDisplay()== move.getDisplay() || y == i +1)
+					&& (board[x][i+3].getDisplay()== move.getDisplay() || y == i +3)) {
+				return true;
+			}
+			
+			if (board[i+2][y].getDisplay()== '-' 
+					&& (board[i][y].getDisplay()== move.getDisplay() || x == i)
+					&& (board[i+1][y].getDisplay()== move.getDisplay() || x == i +1)
+					&& (board[i+3][y].getDisplay()== move.getDisplay() || x == i +3)) {
+				return true;
+			}
+		}
+				
+		return false;
+	}
 	
 	/**
 	 * prints just the board. Used for testing, as it does not print the
