@@ -97,8 +97,8 @@ public class Board {
 		
 		//Rank1: greatest points given. You win, game over.
 		if (makeWinningMove(move)) {
-			//adding 10,000,000
-			score += 10000000;
+			//adding 100,000,000
+			score += 100000000;
 		}
 		
 		//Rank 4: less than make killer move since making a killer move leads to a win,
@@ -113,18 +113,18 @@ public class Board {
 			score += 10000;
 		}
 		
-//		//Rank 5: If opponent is close to setting up a sure win,
-//		//then try to set up a win.
-//		if (setupKillerRow(move)) {
-//			//adding 1,000
-//			score += 1000;
-//		}
-//		
-//		//Rank 5:
-//		if (setupKillerCol(move)) {
-//			//adding 1,000
-//			score += 1000;
-//		}
+		//Rank 5: If opponent is close to setting up a sure win,
+		//then try to set up a win.
+		if (setupKillerRow(move)) {
+			//adding 1,000
+			score += 1000;
+		}
+		
+		//Rank 5:
+		if (setupKillerCol(move)) {
+			//adding 1,000
+			score += 1000;
+		}
 		
 		//test output. DELETE LATER
 		System.out.println(score);
@@ -328,6 +328,76 @@ public class Board {
 				}
 			}
 			
+		}
+		
+		return false;
+	}	
+	
+	/**
+	 * Tries to set up to make a killer move in the next turn by having a square with both sides empty
+	 * Is of three forms, --CC-, -CC--, or -C-C-
+	 * @param move the being tested
+	 * @return true if it does set up, false otherwise
+	 */
+	public boolean setupKillerRow(Square move) {
+		int x = move.posX;
+		int y = move.posY;
+		for(int i = 2; i < 7; i++) {
+			//checks for -C or -M. Where C is a made character and M is the move, with - being a blank space.
+			if ((board[x][i].getDisplay() == move.getDisplay() || i == y)
+					&& board[x][i-1].getDisplay() == '-') {
+				//checks for -CM- or -MC-
+				if((board[x][i+1].getDisplay() == move.getDisplay() || i+1 == y)&& board[x][i+2].getDisplay() == '-') {
+					//checks for --C
+					if(board[x][i-2].getDisplay() == '-') {
+						return true;
+					}
+					//checks for out of bound and then for form -CC--
+					if(i + 3 < 9 && board[x][i+3].getDisplay() == '-') {
+						return true;
+					}
+				}
+				//checks for form -C-C- 
+				if (i+ 3 < 9 && board[x][i+1].getDisplay() == '-' && board[x][i+3].getDisplay() == '-'
+						&& (board[x][i+2].getDisplay() == move.getDisplay() || i+2 == y)) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Tries to set up to make a killer move in the next turn by having a square with both sides empty
+	 * Is of three forms, --CC-, -CC--, or -C-C-
+	 * @param move the being tested
+	 * @return true if it does set up, false otherwise
+	 */
+	public boolean setupKillerCol(Square move) {
+		int x = move.posX;
+		int y = move.posY;
+		for(int i = 2; i < 7; i++) {
+			//checks for -C or -M. Where C is a made character and M is the move, with - being a blank space.
+			if ((board[i][y].getDisplay() == move.getDisplay() || i == x)
+					&& board[i-1][y].getDisplay() == '-') {
+				//checks for -CM- or -MC-
+				if((board[i+1][y].getDisplay() == move.getDisplay() || i+1 == x)&& board[i+2][y].getDisplay() == '-') {
+					//checks for --C
+					if(board[i-2][y].getDisplay() == '-') {
+						return true;
+					}
+					//checks for out of bound and then for form -CC--
+					if(i + 3 < 9 && board[i+3][y].getDisplay() == '-') {
+						return true;
+					}
+				}
+				//checks for form -C-C- 
+				if (i+ 3 < 9 && board[i+1][y].getDisplay() == '-' && board[i+3][y].getDisplay() == '-'
+						&& (board[i+2][y].getDisplay() == move.getDisplay() || i+2 == x)) {
+					return true;
+				}
+			}
 		}
 		
 		return false;
