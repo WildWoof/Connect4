@@ -3,11 +3,12 @@ import java.util.Scanner;
 
 public class Main
 {
+	static Scanner scan = new Scanner(System.in);
 
 	public static void main(String[] args)
 	{
 		boolean exit = false;
-		Scanner scan = new Scanner(System.in);
+		
 		int choice = 0;
 
 		System.out.println("4-In-a-Line");
@@ -21,7 +22,6 @@ public class Main
 			printOptions();
 
 			choice = scan.nextInt();
-
 
 			switch (choice)
 			{
@@ -47,6 +47,7 @@ public class Main
 
 		}
 		System.out.println("Thank You for Playing!");
+		scan.close();
 
 		// Board b = new Board();
 		// b.printDisplay();
@@ -63,7 +64,48 @@ public class Main
 
 	private static void startNewGame()
 	{
+		scan.nextLine();
+		String goesFirst = null;
+		boolean invalidInput = true, computerFirst = false;
+		
+		int timeLimit = 0;
+
 		System.out.println("----------------------------------------------");
+
+		while (invalidInput)
+		{
+			System.out.println();
+			System.out.println("Who goes first, C for computer, O for opponent");
+			goesFirst = scan.nextLine();
+
+			if (goesFirst.toLowerCase().equals("c"))
+			{
+				invalidInput = false;
+				computerFirst = true;
+			} else if (goesFirst.toLowerCase().equals("o"))
+			{
+				invalidInput = false;
+				computerFirst = false;
+			} else
+			{
+				System.out.println("Invalid Input, Try Again");
+			}
+		}
+
+		System.out.println();
+		System.out.println("What is the Time Limit Per Move? (In Seconds)");
+		timeLimit = scan.nextInt();
+
+		Board board = new Board();
+		board.printDisplay();
+		int turnCounter = 0;
+
+		System.out.println();
+		System.out.println("Player vs. Opponent");
+		turnCounter++;
+		System.out.print(turnCounter + ".");
+
+
 	}
 
 	private static void recreateGame()
