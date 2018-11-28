@@ -3,12 +3,15 @@ import java.util.ArrayList;
 public class Board {
 	Square[][] board;
 	ArrayList<String> log;
-	int turn;
+	int turn, timeLimit;
+	boolean gameContinue;
 	
 	/**
 	 * Initialize the board with col and row labels with the rest '-'
+	 * 
+	 * @param Time Limit when Calculating Each Move
 	 */
-	public Board() {
+	public Board(int time) {
 		log = new ArrayList<>();
 		board = new Square[9][9];
 		board[0][0] = new Square(' ');
@@ -39,6 +42,9 @@ public class Board {
 			}
 		}
 		
+		timeLimit = time;
+		gameContinue = true;
+		
 //		//Test of killermove successful.
 //		board [1][6] = new Square('X');
 //		board [1][7] = new Square('X');
@@ -56,6 +62,73 @@ public class Board {
 				board[i][j] = new Square(b.board[i][j]);
 			}
 		}
+		
+		gameContinue = true;
+		
+		timeLimit = 25;
+	}
+	
+	/**
+	 * When this method is called, calculate the next move and update the 
+	 * board with the best move found within the time limit
+	 * Also Updates the History
+	 */
+	public void nextMove()
+	{
+		//TODO
+	}
+	
+	/**
+	 * Set the Time Limit to Calculate Each Move
+	 * @param time
+	 */
+	public void setTimeLimit(int time)
+	{
+		timeLimit = time;
+	}
+	
+	/**
+	 * is called to determine whether or not the game is over.
+	 * @return gameContinue
+	 */
+	public boolean isGameContinue()
+	{
+		return gameContinue;
+	}
+	
+	
+	
+	/**
+	 * checks if the string has the opponent's move, the inputs the 
+	 * opponents move and updates the board
+	 * @param move
+	 * @return true if successful, false if error
+	 */
+	public boolean opponentMove(String move)
+	{
+		int temp, row, col;
+		
+		temp = move.charAt(0);
+		temp = temp - 40;
+		
+		if(temp > 1 && temp < 8 && move.length() == 2)
+		{
+			row = temp;
+			temp = move.charAt(1);
+			temp = temp - 30;
+			
+			if(temp > 1 && temp < 8)
+			{
+				col = temp;
+				if (board[row][col].getIsFilled() == false)
+				{
+					board[row][col].setDisplay('o');
+					return true; //successful input of opponent move
+				}
+				
+			}
+		}
+		return false; //error when inputting opponent move
 	}
 	
 	
@@ -540,7 +613,7 @@ public class Board {
 		}
 		System.out.println();
 		
-		//System.out.println("\t Player vs Opponent");
+		System.out.println("\t Player vs Opponent");
 		
 		for (int i = 0; i < 9; i++) {
 			System.out.print(board[1][i].getDisplay() + " ");

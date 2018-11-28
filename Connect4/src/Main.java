@@ -1,4 +1,3 @@
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main
@@ -64,9 +63,8 @@ public class Main
 
 	private static void startNewGame()
 	{
-		String[][] history = new String[2][64];
 		scan.nextLine();
-		String goesFirst = null;
+		String goesFirst = null, move = null;
 		boolean invalidInput = true, computerFirst = false;
 		
 		int timeLimit = 0;
@@ -97,32 +95,77 @@ public class Main
 		System.out.println("What is the Time Limit Per Move? (In Seconds)");
 		timeLimit = scan.nextInt();
 
-		Board board = new Board();
+		Board board = new Board(timeLimit);
 		board.printDisplay();
 		
 		int turnCounter = 0;
 
 		if(computerFirst)
 		{
-			System.out.println();
-			System.out.println("Player vs. Opponent");
-			turnCounter++;
-			System.out.print(turnCounter + ".");
-			//generate computer move
-			//update history
-			//print
-			//loop between two starting with opponent
+			
+			board.printDisplay();
+			
+
+			while(board.isGameContinue())
+			{
+				System.out.println("Enter Opponent Move (Ex: e5)");
+				move = scan.nextLine().trim().toLowerCase();
+				
+				while(!board.opponentMove(move))
+				{
+					System.out.println("Error With Move, Try Again");
+					System.out.println();
+					System.out.println("Enter Opponent Move (Ex: e5)");
+					move = scan.nextLine().trim().toLowerCase();
+				}
+				
+				if (board.isGameContinue())
+				{
+					System.out.println("GAME OVER");
+				}
+				else
+				{
+					System.out.println();
+					turnCounter++;
+					System.out.print(turnCounter + ".");
+					board.nextMove();
+					
+					board.printDisplay();
+				}
+				
+			}
 		}
 		else
 		{
-			System.out.println();
-			System.out.println("Opponent vs. Player");
-			turnCounter++;
-			System.out.print(turnCounter + ".");
-			//input opponent move
-			//update history
-			//print
-			//loop between two starting with player
+			while(board.isGameContinue())
+			{
+				System.out.println("Enter Opponent Move (Ex: e5)");
+				move = scan.nextLine().trim().toLowerCase();
+				
+				while(!board.opponentMove(move))
+				{
+					System.out.println("Error With Move, Try Again");
+					System.out.println();
+					System.out.println("Enter Opponent Move (Ex: e5)");
+					move = scan.nextLine().trim().toLowerCase();
+				}
+				
+				if (board.isGameContinue())
+				{
+					System.out.println("GAME OVER");
+				}
+				else
+				{
+					System.out.println();
+					turnCounter++;
+					System.out.print(turnCounter + ".");
+					board.nextMove();
+					
+					board.printDisplay();
+				}
+				
+			}
+			
 		}
 		
 		

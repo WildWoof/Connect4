@@ -67,6 +67,16 @@ public class Square {
 	public char getEnemy() {
 		return enemy;
 	}
+	
+	public boolean getIsFilled()
+	{
+		return isFilled;
+	}
+	
+	public void setDisplay(char temp)
+	{
+		display = temp;
+	}
 
 	/**
 	 * finds the position of this square on the board and turns it into a
