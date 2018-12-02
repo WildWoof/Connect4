@@ -18,6 +18,7 @@ public class Square {
 		isFilled = false;
 	}
 
+	//To input a square without initializing coordinatews
 	public Square(char c) {
 		display = c;
 		if (c == '-') {
@@ -25,13 +26,14 @@ public class Square {
 		} else {
 			isFilled = true;
 		}
-		if ( c == 'X') {
-			enemy = 'O';
-		} else if (c == 'O') {
-			enemy = 'X';
+		if ( c == 'X' || c == 'x') {
+			enemy = 'o';
+		} else if (c == 'O' || c == 'o') {
+			enemy = 'x';
 		}
 	}
 
+	// to input a square of move c and pos x, y
 	public Square(char c, int x, int y) {
 		display = c;
 		if (c == '-') {
@@ -41,10 +43,10 @@ public class Square {
 		}
 		posX = x;
 		posY = y;
-		if ( c == 'X') {
-			enemy = 'O';
-		} else if (c == 'O') {
-			enemy = 'X';
+		if ( c == 'X' || c== 'x') {
+			enemy = 'o';
+		} else if (c == 'O' || c == 'o') {
+			enemy = 'x';
 		}
 	}
 	
@@ -53,10 +55,14 @@ public class Square {
 	 * @param s original square s
 	 */
 	public Square(Square s) {
+		isFilled = s.isFilled;
 		display = s.display;
+		enemy = s.enemy;
 		posX = s.posX;
 		posY = s.posY;
-		isFilled = s.isFilled;
+		score = s.score;
+		findBoardPosition();
+		
 	}
 	//display is the X, O, or - on the screen
 	public char getDisplay() {
@@ -76,6 +82,13 @@ public class Square {
 	public void setDisplay(char temp)
 	{
 		display = temp;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int newScore) {
+		score = newScore;
 	}
 
 	/**

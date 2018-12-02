@@ -1,9 +1,9 @@
 
 public class abPruning {
-	int depth;
+	final int maxDepth;
 	
 	public abPruning() {
-		depth = 0;
+		maxDepth = 2;
 	}
 
 	/**
@@ -15,17 +15,25 @@ public class abPruning {
 	 * @return
 	 */
 	public Square abSearch(Board state) {
-		Square move = maxValue(state,-1000000000, 1000000000);
+		Square move = maxValue(state, 1, -1000000000, 1000000000);
 		
 		return move;
 	}
 	
-	public Square maxValue(Board state, int a, int b) {
+	
+	public Square maxValue(Board state, int depth, int alpha, int beta) {
+		//terminal condition, max depth reached, or no more moves available
+		if (depth == maxDepth || !state.moreMoves()) {
+			//TODO break or something
+			
+		}
+		minValue(state, depth+1, alpha, beta);
+		
 		
 		return null;
 	}
 	
-	public int minValue(Board state, int a, int b) {
+	public int minValue(Board state, int depth, int alpha, int beta) {
 		//TODO
 		return 0;
 	}
