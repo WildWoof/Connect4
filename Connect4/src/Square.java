@@ -16,6 +16,7 @@ public class Square {
 	public Square() {
 		display = '-';
 		isFilled = false;
+		score = -1000;
 	}
 
 	//To input a square without initializing coordinatews

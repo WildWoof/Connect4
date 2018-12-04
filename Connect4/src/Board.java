@@ -729,7 +729,7 @@ public class Board {
 	 */
 	public Square findBestMove() {
 
-		Square bestMove;
+		Square bestMove = new Square();
 
 		// traverse through the board
 		for (int i = 1; i < 9; i++) {
@@ -739,7 +739,9 @@ public class Board {
 					board[i][j].setDisplay('x');
 					// Recursively call. Currently we are max, so this move will call min
 					Square move = minValue(board[i][j], 1, -1000000000, 1000000000);
-
+					if (move.getScore() > bestMove.getScore()) {
+						bestMove = move;
+					}
 					// undo the move continue iterating and scoring.
 					board[i][j].setDisplay('-');
 
@@ -748,8 +750,7 @@ public class Board {
 
 		}
 
-
-		return move;
+		return bestMove;
 	}
 
 	public Square maxValue(Square move, int depth, int alpha, int beta) {
@@ -758,7 +759,7 @@ public class Board {
 			scoreMove(move);
 			return move;
 		}
-		
+
 		// traverse through the board
 		for (int i = 1; i < 9; i++) {
 			for (int j = 1; j < 9; j++) {
@@ -766,20 +767,20 @@ public class Board {
 				if (!board[i][j].getIsFilled()) {
 					board[i][j].setDisplay('x');
 					// Recursively call. Currently we are max, so this move will call min
-					move = minValue(board[i][j], depth+1, alpha, beta);
-					
+					move = minValue(board[i][j], depth + 1, alpha, beta);
+
 					// undo the move continue iterating and scoring.
 					board[i][j].setDisplay('-');
-					
-					//pruning
-					if(move.getScore() > beta) {
+
+					// pruning
+					if (move.getScore() > beta) {
 						break;
 					}
-					//update alpha.
+					// update alpha.
 					if (move.getScore() > alpha) {
 						alpha = move.getScore();
 					}
-					
+
 				}
 			}
 
@@ -789,8 +790,39 @@ public class Board {
 	}
 
 	public Square minValue(Square move, int depth, int alpha, int beta) {
-		// TODO
-		return null;
+		// terminal condition, max depth reached, or no more moves available
+		if (depth == maxDepth || !moreMoves()) {
+			scoreMove(move);
+			return move;
+		}
+
+		// traverse through the board
+		for (int i = 1; i < 9; i++) {
+			for (int j = 1; j < 9; j++) {
+				// if available square, make the move.
+				if (!board[i][j].getIsFilled()) {
+					board[i][j].setDisplay('x');
+					// Recursively call. Currently we are max, so this move will call min
+					move = minValue(board[i][j], depth + 1, alpha, beta);
+
+					// undo the move continue iterating and scoring.
+					board[i][j].setDisplay('-');
+
+					// pruning
+					if (move.getScore() < alpha) {
+						break;
+					}
+					// update alpha.
+					if (move.getScore() < beta) {
+						beta = move.getScore();
+					}
+
+				}
+			}
+
+		}
+
+		return move;
 	}
 
 }
