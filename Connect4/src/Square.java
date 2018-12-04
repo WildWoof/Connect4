@@ -76,7 +76,12 @@ public class Square {
 	
 	public boolean getIsFilled()
 	{
-		return isFilled;
+		if (display == '-') {
+			return false;
+		} else {
+			return true;
+		}
+		//return isFilled;
 	}
 	
 	public void setDisplay(char temp)

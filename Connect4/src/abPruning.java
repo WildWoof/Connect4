@@ -1,4 +1,4 @@
-
+//Currently not used. Keeping it here just in case.
 public class abPruning {
 	final int maxDepth;
 	
@@ -15,6 +15,7 @@ public class abPruning {
 	 * @return
 	 */
 	public Square abSearch(Board state) {
+		state.scoreBoard();
 		Square move = maxValue(state, 1, -1000000000, 1000000000);
 		
 		return move;
