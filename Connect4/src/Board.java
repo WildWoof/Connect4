@@ -801,7 +801,7 @@ public class Board {
 			for (int j = 1; j < 9; j++) {
 				// if available square, make the move.
 				if (!board[i][j].getIsFilled()) {
-					board[i][j].setDisplay('x');
+					board[i][j].setDisplay('o');
 					// Recursively call. Currently we are max, so this move will call min
 					move = minValue(board[i][j], depth + 1, alpha, beta);
 
