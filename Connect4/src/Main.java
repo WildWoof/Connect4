@@ -82,7 +82,10 @@ public class Main
 		board.printBoard();
 		board.findBestMove();
 		board.printBoard();
-		
+		move = new Square ('o' , 4, 3);
+		board.placeSquare(move);
+		board.findBestMove();
+		board.printBoard();
 		
 	
 	

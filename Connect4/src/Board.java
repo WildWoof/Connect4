@@ -765,7 +765,7 @@ public class Board {
 	 */
 	public Square findBestMove() {
 
-		Square bestMove = board[1][1];
+		Square bestMove = findFirstAvailableSpace();
 
 		// traverse through the board
 		for (int i = 1; i < 9; i++) {
@@ -890,6 +890,25 @@ public class Board {
 		}
 
 		return bestMove;
+	}
+	
+	
+	/**
+	 * used to 
+	 * @return
+	 */
+	public Square findFirstAvailableSpace() {
+		
+		for(int i = 1; i< 9; i++) {
+			for(int j = 1; j < 9; j++) {
+				if(!board[i][j].getIsFilled()) {
+					return board[i][j];
+				}
+			}
+		}
+		
+		System.out.println("Game Over, No available spaces");
+		return null;
 	}
 	
 	
