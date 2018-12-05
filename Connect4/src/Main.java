@@ -58,9 +58,10 @@ public class Main
 	}
 	
 	private static void testAlgorithm() {
+		Board board = new Board(30);
 		
 		//TEST OF all scoring heuristics. Depth 0. No miniMax.
-//		Board board = new Board(30);
+//		
 //		Square move = new Square ('o' , 5, 4);
 //		board.placeSquare(move);
 //		board.findBestMove(4);
@@ -75,6 +76,8 @@ public class Main
 		//Test succeeds, optimal move chosen each time.
 		//END TEST
 		
+		board.findBestMove();
+		board.printBoard();
 		
 	
 	

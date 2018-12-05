@@ -13,7 +13,7 @@ public class Board {
 	 * @param Time Limit when Calculating Each Move
 	 */
 	public Board(int time) {
-		maxDepth = 2;
+		maxDepth = 3;
 		log = new ArrayList<>();
 		board = new Square[9][9];
 		board[0][0] = new Square(' ');
@@ -55,7 +55,7 @@ public class Board {
 	 * @param b original board b
 	 */
 	Board(Board b) {
-		maxDepth = 2;
+		maxDepth = 3;
 		board = new Square[9][9];
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -773,11 +773,17 @@ public class Board {
 				// if available square, make the move.
 				if (!board[i][j].getIsFilled()) {
 					board[i][j].setDisplay('x');
+					
+					//testing to stop at this point
+					if(i==4 && j==4) {
+						String b = "critical hit!";
+					}
+					
 					// Recursively call. Currently we are max, so this move will call min
 					Square move = minValue(board[i][j], 1, -1000000000, 1000000000);
 					
 					//if the move has a better score than best move, replace best move
-					if (move.getScore() > bestMove.getScore()) {
+					if (!move.getIsFilled() && move.getScore() > bestMove.getScore()) {
 						bestMove = move;
 					}
 					// undo the move continue iterating and scoring.
@@ -814,7 +820,7 @@ public class Board {
 					nextMove = minValue(board[i][j], depth + 1, alpha, beta);
 
 					//if the move has less points than the best move, replace best.
-					if(nextMove.getScore() > bestMove.getScore()) {
+					if(!move.getIsFilled() && nextMove.getScore() > bestMove.getScore()) {
 						bestMove = nextMove;
 					}
 					
@@ -841,6 +847,7 @@ public class Board {
 	public Square minValue(Square move, int depth, int alpha, int beta) {
 		// terminal condition, max depth reached, or no more moves available
 		if (depth == maxDepth || !moreMoves()) {
+			
 			move.setScore(scoreMove(move));
 			return move;
 		}
