@@ -25,7 +25,7 @@ public class abPruning {
 	public Square maxValue(Board state, int depth, int alpha, int beta) {
 		//terminal condition, max depth reached, or no more moves available
 		if (depth == maxDepth || !state.moreMoves()) {
-			//TODO break or something
+			// TODO break or something
 			
 		}
 		minValue(state, depth+1, alpha, beta);
