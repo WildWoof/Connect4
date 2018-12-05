@@ -69,14 +69,6 @@ public class Board {
 	}
 
 	/**
-	 * When this method is called, calculate the next move and update the board with
-	 * the best move found within the time limit Also Updates the History
-	 */
-	public void nextMove() {
-		// TODO
-	}
-
-	/**
 	 * Set the Time Limit to Calculate Each Move
 	 * 
 	 * @param time
@@ -105,14 +97,14 @@ public class Board {
 		int temp, row, col;
 
 		temp = move.charAt(0);
-		temp = temp - 40;
+		temp = temp - 96;
 
-		if (temp > 1 && temp < 8 && move.length() == 2) {
+		if (temp >= 1 && temp <= 8 && move.length() == 2) {
 			row = temp;
 			temp = move.charAt(1);
-			temp = temp - 30;
+			temp = temp - 48;
 
-			if (temp > 1 && temp < 8) {
+			if (temp >= 1 && temp <= 8) {
 				col = temp;
 				if (board[row][col].getIsFilled() == false) {
 					board[row][col].setDisplay('o');
@@ -247,7 +239,8 @@ public class Board {
 						&& (board[x][i + 1].getDisplay() == move.getDisplay() || i + 1 == y)
 						&& (board[x][i + 2].getDisplay() == move.getDisplay() || i + 2 == y)
 						// checks for space at the end.
-						&& board[x][i + 3].getDisplay() == '-') {
+						&& board[x][i + 3].getDisplay() == '-') 
+				{
 					return true;
 				}
 			}
@@ -277,7 +270,8 @@ public class Board {
 						&& (board[i + 1][y].getDisplay() == move.getDisplay() || i + 1 == x)
 						&& (board[i + 2][y].getDisplay() == move.getDisplay() || i + 2 == x)
 						// checks for space at the end.
-						&& board[i + 3][y].getDisplay() == '-') {
+						&& board[i + 3][y].getDisplay() == '-') 
+				{
 					return true;
 				}
 			}
@@ -357,7 +351,8 @@ public class Board {
 						&& (board[x][i + 2].getDisplay() == move.getDisplay()
 								|| (i + 2 == y && board[x][i + 2].getDisplay() == '-'))
 						&& (board[x][i + 3].getDisplay() == move.getDisplay()
-								|| (i + 3 == y && board[x][i + 3].getDisplay() == '-'))) {
+								|| (i + 3 == y && board[x][i + 3].getDisplay() == '-'))) 
+				{
 					return true;
 				}
 			}
@@ -370,7 +365,8 @@ public class Board {
 						&& (board[i + 2][y].getDisplay() == move.getDisplay()
 								|| (i + 2 == x && board[i + 2][y].getDisplay() == '-'))
 						&& (board[i + 3][y].getDisplay() == move.getDisplay()
-								|| (i + 3 == x && board[i + 3][y].getDisplay() == '-'))) {
+								|| (i + 3 == x && board[i + 3][y].getDisplay() == '-'))) 
+				{
 					return true;
 				}
 			}

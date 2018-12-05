@@ -7,60 +7,59 @@ public class Main
 	public static void main(String[] args)
 	{
 		boolean exit = false;
-		
+
 		int choice = 0;
 
 		System.out.println("4-In-a-Line");
 		System.out.println("By Richard Matthew Musquiz and Cody Nguyen");
 		System.out.println("----------------------------------------------");
 
-		testAlgorithm();
-		
-//		while (!exit)
-//		{
-//			System.out.println();
-//			System.out.println("What would you like to do?");
-//			printOptions();
-//
-//			choice = scan.nextInt();
-//
-//			switch (choice)
-//			{
-//			case 1:
-//				startNewGame();
-//				System.out.println("----------------------------------------------");
-//				break;
-//
-//			case 2:
-//				recreateGame();
-//				System.out.println("----------------------------------------------");
-//				break;
-//			case 3:
-//				exit = true;
-//				System.out.println("----------------------------------------------");
-//				break;
-//			case 4:
-//				testAlgorithm();
-//				break;
-//
-//			default:
-//				System.out.println("Invalid Input, Try Again");
-//				System.out.println("----------------------------------------------");
-//				break;
-//			}
-//
-//		}
-//		System.out.println("Thank You for Playing!");
-//		scan.close();
+		// testAlgorithm();
 
-		
+		while (!exit)
+		{
+			System.out.println();
+			System.out.println("What would you like to do?");
+			printOptions();
+
+			choice = scan.nextInt();
+
+			switch (choice)
+			{
+			case 1:
+				startNewGame();
+				System.out.println("----------------------------------------------");
+				break;
+
+			case 2:
+				recreateGame();
+				System.out.println("----------------------------------------------");
+				break;
+			case 3:
+				exit = true;
+				System.out.println("----------------------------------------------");
+				break;
+			case 4:
+				testAlgorithm();
+				break;
+
+			default:
+				System.out.println("Invalid Input, Try Again");
+				System.out.println("----------------------------------------------");
+				break;
+			}
+
+		}
+		System.out.println("Thank You for Playing!");
+		scan.close();
 
 	}
-	
-	private static void testAlgorithm() {
+
+	private static void testAlgorithm()
+	{
 		Board board = new Board(30);
-		
-		//TEST OF all scoring heuristics. Depth 0. No miniMax.
+
+		// TEST OF all scoring heuristics. Depth 0. No miniMax.
 //		
 //		Square move = new Square ('o' , 5, 4);
 //		board.placeSquare(move);
@@ -72,24 +71,21 @@ public class Main
 //		board.printDisplay();
 //		board.findBestMove(4);
 //		board.printDisplay();
-		
-		//Test succeeds, optimal move chosen each time.
-		//END TEST
-		
+
+		// Test succeeds, optimal move chosen each time.
+		// END TEST
+
 		board.findBestMove();
-		Square move = new Square ('o' , 5, 4);
+		Square move = new Square('o', 5, 4);
 		board.placeSquare(move);
 		board.printBoard();
 		board.findBestMove();
 		board.printBoard();
-		move = new Square ('o' , 4, 3);
+		move = new Square('o', 4, 3);
 		board.placeSquare(move);
 		board.findBestMove();
 		board.printBoard();
-		
-	
-	
-		
+
 	}
 
 	private static void printOptions()
@@ -105,7 +101,7 @@ public class Main
 		scan.nextLine();
 		String goesFirst = null, move = null;
 		boolean invalidInput = true, computerFirst = false;
-		
+
 		int timeLimit = 0;
 
 		System.out.println("----------------------------------------------");
@@ -133,86 +129,76 @@ public class Main
 		System.out.println();
 		System.out.println("What is the Time Limit Per Move? (In Seconds)");
 		timeLimit = scan.nextInt();
+		scan.nextLine();
 
 		Board board = new Board(timeLimit);
-		//board.printDisplay();
-		
+		// board.printDisplay();
+
 		int turnCounter = 0;
 
-		if(computerFirst)
+		if (computerFirst)
 		{
-			
-			//board.printDisplay();
-			
 
-			while(board.isGameContinue())
-			{
-				System.out.println("Enter Opponent Move (Ex: e5)");
-				move = scan.nextLine().trim().toLowerCase();
+			// board.printDisplay();
+
+			
+			do{
+
+				// computer moves
+				System.out.println();
 				board.findBestMove();
 				board.printDisplay();
-				
-				//pretty sure this is the error, since the opponent move never happens as its the ai turn
-				while(!board.opponentMove(move))
-				{
-					System.out.println("Error With Move, Try Again");
-					System.out.println();
-					System.out.println("Enter Opponent Move (Ex: e5)");
-					move = scan.nextLine().trim().toLowerCase();
-				}
-				
-				if (board.isGameContinue())
-				{
-					System.out.println("GAME OVER");
-				}
-				else
-				{
-					System.out.println();
-					turnCounter++;
-					System.out.print(turnCounter + ".");
-					board.nextMove();
-					
-					board.printDisplay();
-				}
-				
-			}
-		}
-		else
-		{
-			while(board.isGameContinue())
-			{
-				System.out.println("Enter Opponent Move (Ex: e5)");
-				move = scan.nextLine().trim().toLowerCase();
-				
-				//this is what is crashing since no move is entered yet
-				while(!board.opponentMove(move))
-				{
-					System.out.println("Error With Move, Try Again");
-					System.out.println();
-					System.out.println("Enter Opponent Move (Ex: e5)");
-					move = scan.nextLine().trim().toLowerCase();
-				}
-				
-				if (board.isGameContinue())
-				{
-					System.out.println("GAME OVER");
-				}
-				else
-				{
-					System.out.println();
-					turnCounter++;
-					System.out.print(turnCounter + ".");
-					board.nextMove();
-					
-					board.printDisplay();
-				}
-				
-			}
-			
-		}
-		
-		
 
+				// enter opponent move
+				boolean first = true;
+				do
+				{
+					System.out.println();
+					if (!first)
+					{
+						System.out.println("Error With Move, Try Again");
+					}
+
+					System.out.println("Enter Opponent Move (Ex: e5)");
+
+					move = scan.nextLine().trim().toLowerCase();
+					first = false;
+				} while (!board.opponentMove(move));
+
+			}while (board.isGameContinue());
+			System.out.println("GAME OVER");
+
+		} else
+		{
+
+			do
+			{
+
+				// enter opponent move
+				boolean first = true;
+				do
+				{
+					System.out.println();
+					if (!first)
+					{
+						System.out.println("Error With Move, Try Again");
+					}
+
+					System.out.println("Enter Opponent Move (Ex: e5)");
+
+					move = scan.nextLine().trim().toLowerCase();
+					first = false;
+				} while (!board.opponentMove(move));
+
+				// computer moves
+				System.out.println();
+				board.findBestMove();
+				board.printDisplay();
+
+			} while (board.isGameContinue());
+			
+			System.out.println("GAME OVER");
+		}
 
 	}
 
