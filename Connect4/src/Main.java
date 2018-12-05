@@ -156,6 +156,7 @@ public class Main
 
 			} while (board.isGameContinue());
 			System.out.println("GAME OVER");
+			board.printDisplay();
 
 		} else
 		{
@@ -187,6 +188,7 @@ public class Main
 			} while (board.isGameContinue());
 
 			System.out.println("GAME OVER");
+			board.printDisplay();
 		}
 
 	}
@@ -304,6 +306,7 @@ public class Main
 
 			} while (board.isGameContinue());
 			System.out.println("GAME OVER");
+			board.printDisplay();
 
 		} else
 		{
@@ -334,6 +337,7 @@ public class Main
 			} while (board.isGameContinue());
 
 			System.out.println("GAME OVER");
+			board.printDisplay();
 		}
 
 	}
