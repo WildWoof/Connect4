@@ -39,7 +39,7 @@ public class Board {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				if (j > 0 && i != 0) {
-					board[i][j] = new Square();
+					board[i][j] = new Square('-',i,j);
 				}
 			}
 		}
@@ -47,11 +47,6 @@ public class Board {
 		timeLimit = time;
 		gameContinue = true;
 
-//		//Test of killermove successful.
-//		board [1][6] = new Square('X');
-//		board [1][7] = new Square('X');
-//		Square test = new Square('X', 1, 5);
-//		scoreMove(test);
 	}
 
 	/**
@@ -136,7 +131,9 @@ public class Board {
 	 * @param move
 	 */
 	public void placeSquare(Square move) {
+		
 		board[move.posX][move.posY] = move;
+		
 
 	}
 
@@ -216,6 +213,13 @@ public class Board {
 			score += 10;
 		}
 
+		if(score > 0) {
+			//test to check if score is actually doing anything
+			System.out.print(' ');
+			if (score > 1) {
+				System.out.print(' ');
+			}
+		}
 		return score;
 	}
 
@@ -653,12 +657,15 @@ public class Board {
 	 */
 	public void printDisplay() {
 
+		System.out.println();
 		for (int i = 0; i < 9; i++) {
 			System.out.print(board[0][i].getDisplay() + " ");
 		}
+		
+		System.out.print("\t\t Player vs Opponent");
 		System.out.println();
 
-		System.out.println("\t Player vs Opponent");
+		
 
 		for (int i = 0; i < 9; i++) {
 			System.out.print(board[1][i].getDisplay() + " ");
@@ -719,6 +726,35 @@ public class Board {
 		System.out.println("\t \t ");
 
 	}
+	
+	public Square findBestMove(int time) {
+		Square bestMove = board[1][1];
+		
+		for(int i = 1; i < 9; i++) {
+			for(int j =1 ; j < 9; j++) {
+				//score the tile
+				if (!board[i][j].getIsFilled()) {
+					//set char for enemy checking in evaluation
+					board[i][j].setDisplay('x');
+					//score move takes in a move with a character.
+					board[i][j].setScore(scoreMove(board[i][j]));
+					//set display back
+					board[i][j].setDisplay('-');
+				}
+				//if the square is not filled then if its score is better than the best move
+				//replace best move.
+				if (!board[i][j].isFilled && board[i][j].getScore() > bestMove.getScore()) {
+					bestMove = board[i][j];
+				}
+			}
+		}
+		
+		
+		bestMove.setDisplay('x');
+		placeSquare(bestMove);
+		
+		return bestMove;
+	}
 
 	/**
 	 * MiniMax recursive algorithm. a = the value of best Max, b = value of best Min
@@ -729,7 +765,7 @@ public class Board {
 	 */
 	public Square findBestMove() {
 
-		Square bestMove = new Square();
+		Square bestMove = board[1][1];
 
 		// traverse through the board
 		for (int i = 1; i < 9; i++) {
@@ -739,6 +775,8 @@ public class Board {
 					board[i][j].setDisplay('x');
 					// Recursively call. Currently we are max, so this move will call min
 					Square move = minValue(board[i][j], 1, -1000000000, 1000000000);
+					
+					//if the move has a better score than best move, replace best move
 					if (move.getScore() > bestMove.getScore()) {
 						bestMove = move;
 					}
@@ -749,26 +787,37 @@ public class Board {
 			}
 
 		}
-
+		bestMove.setDisplay('x');
+		//make the best move
+		placeSquare(bestMove);
 		return bestMove;
 	}
 
 	public Square maxValue(Square move, int depth, int alpha, int beta) {
 		// terminal condition, max depth reached, or no more moves available
 		if (depth == maxDepth || !moreMoves()) {
-			scoreMove(move);
+			move.setScore(scoreMove(move));
 			return move;
 		}
+		Square bestMove = move;
+		Square nextMove;
 
 		// traverse through the board
+		//in psuedocode this is iterating through successor states
 		for (int i = 1; i < 9; i++) {
 			for (int j = 1; j < 9; j++) {
 				// if available square, make the move.
+				
 				if (!board[i][j].getIsFilled()) {
 					board[i][j].setDisplay('x');
 					// Recursively call. Currently we are max, so this move will call min
-					move = minValue(board[i][j], depth + 1, alpha, beta);
+					nextMove = minValue(board[i][j], depth + 1, alpha, beta);
 
+					//if the move has less points than the best move, replace best.
+					if(nextMove.getScore() > bestMove.getScore()) {
+						bestMove = nextMove;
+					}
+					
 					// undo the move continue iterating and scoring.
 					board[i][j].setDisplay('-');
 
@@ -786,25 +835,34 @@ public class Board {
 
 		}
 
-		return move;
+		return bestMove;
 	}
 
 	public Square minValue(Square move, int depth, int alpha, int beta) {
 		// terminal condition, max depth reached, or no more moves available
 		if (depth == maxDepth || !moreMoves()) {
-			scoreMove(move);
+			move.setScore(scoreMove(move));
 			return move;
 		}
-
+		Square bestMove = move;
+		Square nextMove;
+		bestMove.setScore(scoreMove(bestMove));
 		// traverse through the board
+		//in psuedocode this is iterating through all successor states
 		for (int i = 1; i < 9; i++) {
 			for (int j = 1; j < 9; j++) {
 				// if available square, make the move.
 				if (!board[i][j].getIsFilled()) {
 					board[i][j].setDisplay('o');
-					// Recursively call. Currently we are max, so this move will call min
-					move = minValue(board[i][j], depth + 1, alpha, beta);
-
+					// Recursively call. Currently we are max, so this move will call max
+					
+					nextMove = maxValue(board[i][j], depth + 1, alpha, beta);
+					
+					//if the move has less points than the best move, replace best.
+					if(nextMove.getScore() < bestMove.getScore()) {
+						bestMove = nextMove;
+					}
+					
 					// undo the move continue iterating and scoring.
 					board[i][j].setDisplay('-');
 
@@ -822,7 +880,9 @@ public class Board {
 
 		}
 
-		return move;
+		return bestMove;
 	}
+	
+	
 
 }

@@ -75,6 +75,7 @@ public class Square {
 		return enemy;
 	}
 	
+	
 	public boolean getIsFilled()
 	{
 		if (display == '-') {
@@ -88,6 +89,11 @@ public class Square {
 	public void setDisplay(char temp)
 	{
 		display = temp;
+		if (display == '-') {
+			isFilled = false;
+		}else {
+			isFilled = true;
+		}
 	}
 	
 	public int getScore() {

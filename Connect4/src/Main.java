@@ -14,43 +14,71 @@ public class Main
 		System.out.println("By Richard Matthew Musquiz and Cody Nguyen");
 		System.out.println("----------------------------------------------");
 
-		while (!exit)
-		{
-			System.out.println();
-			System.out.println("What would you like to do?");
-			printOptions();
+		testAlgorithm();
+		
+//		while (!exit)
+//		{
+//			System.out.println();
+//			System.out.println("What would you like to do?");
+//			printOptions();
+//
+//			choice = scan.nextInt();
+//
+//			switch (choice)
+//			{
+//			case 1:
+//				startNewGame();
+//				System.out.println("----------------------------------------------");
+//				break;
+//
+//			case 2:
+//				recreateGame();
+//				System.out.println("----------------------------------------------");
+//				break;
+//			case 3:
+//				exit = true;
+//				System.out.println("----------------------------------------------");
+//				break;
+//			case 4:
+//				testAlgorithm();
+//				break;
+//
+//			default:
+//				System.out.println("Invalid Input, Try Again");
+//				System.out.println("----------------------------------------------");
+//				break;
+//			}
+//
+//		}
+//		System.out.println("Thank You for Playing!");
+//		scan.close();
 
-			choice = scan.nextInt();
+		
 
-			switch (choice)
-			{
-			case 1:
-				startNewGame();
-				System.out.println("----------------------------------------------");
-				break;
-
-			case 2:
-				recreateGame();
-				System.out.println("----------------------------------------------");
-				break;
-			case 3:
-				exit = true;
-				System.out.println("----------------------------------------------");
-				break;
-
-			default:
-				System.out.println("Invalid Input, Try Again");
-				System.out.println("----------------------------------------------");
-				break;
-			}
-
-		}
-		System.out.println("Thank You for Playing!");
-		scan.close();
-
-		// Board b = new Board();
-		// b.printDisplay();
-
+	}
+	
+	private static void testAlgorithm() {
+		
+		//TEST OF all scoring heuristics. Depth 0. No miniMax.
+//		Board board = new Board(30);
+//		Square move = new Square ('o' , 5, 4);
+//		board.placeSquare(move);
+//		board.findBestMove(4);
+//		move = new Square ('o' , 5, 5);
+//		board.findBestMove(4);
+//		move = new Square ('o' , 4, 3);
+//		board.placeSquare(move);
+//		board.printDisplay();
+//		board.findBestMove(4);
+//		board.printDisplay();
+		
+		//Test succeeds, optimal move chosen each time.
+		//END TEST
+		
+		
+	
+	
+		
 	}
 
 	private static void printOptions()
@@ -96,21 +124,24 @@ public class Main
 		timeLimit = scan.nextInt();
 
 		Board board = new Board(timeLimit);
-		board.printDisplay();
+		//board.printDisplay();
 		
 		int turnCounter = 0;
 
 		if(computerFirst)
 		{
 			
-			board.printDisplay();
+			//board.printDisplay();
 			
 
 			while(board.isGameContinue())
 			{
 				System.out.println("Enter Opponent Move (Ex: e5)");
 				move = scan.nextLine().trim().toLowerCase();
+				board.findBestMove();
+				board.printDisplay();
 				
+				//pretty sure this is the error, since the opponent move never happens as its the ai turn
 				while(!board.opponentMove(move))
 				{
 					System.out.println("Error With Move, Try Again");
@@ -142,6 +173,7 @@ public class Main
 				System.out.println("Enter Opponent Move (Ex: e5)");
 				move = scan.nextLine().trim().toLowerCase();
 				
+				//this is what is crashing since no move is entered yet
 				while(!board.opponentMove(move))
 				{
 					System.out.println("Error With Move, Try Again");
