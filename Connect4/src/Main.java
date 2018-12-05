@@ -77,7 +77,12 @@ public class Main
 		//END TEST
 		
 		board.findBestMove();
+		Square move = new Square ('o' , 5, 4);
+		board.placeSquare(move);
 		board.printBoard();
+		board.findBestMove();
+		board.printBoard();
+		
 		
 	
 	

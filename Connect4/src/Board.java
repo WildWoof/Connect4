@@ -865,8 +865,10 @@ public class Board {
 					
 					nextMove = maxValue(board[i][j], depth + 1, alpha, beta);
 					
-					//if the move has less points than the best move, replace best.
-					if(nextMove.getScore() < bestMove.getScore()) {
+					//if the move has more points than the best move, replace best.
+					//even though we are in min, the scoring algorithm is scoring the next move based on
+					//min, so we want as high a score as possible, meaning min will choose optimally
+					if(nextMove.getScore() > bestMove.getScore()) {
 						bestMove = nextMove;
 					}
 					
