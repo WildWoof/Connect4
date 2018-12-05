@@ -776,7 +776,7 @@ public class Board {
 					}
 					
 					// Recursively call. Currently we are max, so this move will call min
-					Square move = minValue(board[i][j], 1, -1000000000, 1000000000);
+					Square move = minValue(board[i][j], 2, -1000000000, 1000000000);
 					
 					//if the move has a better score than best move, replace best move
 					if (!move.getIsFilled() && move.getScore() > bestMove.getScore()) {
