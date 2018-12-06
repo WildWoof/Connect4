@@ -969,39 +969,39 @@ public class Board
 	}
 
 	//Overloaded test algorithm to make sure the scoring is working.
-	public Square findBestMove(int time)
-	{
-		Square bestMove = board[1][1];
-
-		for (int i = 1; i < 9; i++)
-		{
-			for (int j = 1; j < 9; j++)
-			{
-				// score the tile
-				if (!board[i][j].getIsFilled())
-				{
-					// set char for enemy checking in evaluation
-					board[i][j].setDisplay('x');
-					// score move takes in a move with a character.
-					board[i][j].setScore(scoreMove(board[i][j]));
-					// set display back
-					board[i][j].setDisplay('-');
-				}
-				// if the square is not filled then if its score is better than the best move
-				// replace best move.
-				if (!board[i][j].isFilled && board[i][j].getScore() > bestMove.getScore())
-				{
-					bestMove = board[i][j];
-				}
-			}
-		}
-
-		bestMove.setDisplay('x');
-		placeSquare(bestMove);
-		log.add(bestMove);
-		turnCounter++;
-		return bestMove;
-	}
+//	public Square findBestMove(int time)
+//	{
+//		Square bestMove = board[1][1];
+//
+//		for (int i = 1; i < 9; i++)
+//		{
+//			for (int j = 1; j < 9; j++)
+//			{
+//				// score the tile
+//				if (!board[i][j].getIsFilled())
+//				{
+//					// set char for enemy checking in evaluation
+//					board[i][j].setDisplay('x');
+//					// score move takes in a move with a character.
+//					board[i][j].setScore(scoreMove(board[i][j]));
+//					// set display back
+//					board[i][j].setDisplay('-');
+//				}
+//				// if the square is not filled then if its score is better than the best move
+//				// replace best move.
+//				if (!board[i][j].isFilled && board[i][j].getScore() > bestMove.getScore())
+//				{
+//					bestMove = board[i][j];
+//				}
+//			}
+//		}
+//
+//		bestMove.setDisplay('x');
+//		placeSquare(bestMove);
+//		log.add(bestMove);
+//		turnCounter++;
+//		return bestMove;
+//	}
 
 	/**
 	 * MiniMax recursive algorithm. Starts of as max, iterating through the entire board
@@ -1017,7 +1017,7 @@ public class Board
 			depth = 1;
 		//looks less ahead due to scoring mechanism not stopping wins if going second.
 		} else {
-			depth = 2;
+			depth = 1;
 		}
 		
 		Square bestMove = findFirstAvailableSpace();
@@ -1031,7 +1031,7 @@ public class Board
 				if (!board[i][j].getIsFilled())
 				{
 					board[i][j].setDisplay('x');
-					
+					board[i][j].setScore(scoreMove(board[i][j]));
 
 					// Recursively call. Currently we are max, so this move will call min
 					Square move = minValue(board[i][j], depth, -2000000000,2000000000);
@@ -1039,7 +1039,7 @@ public class Board
 //					//if the move has an equal score, randomly replace the move with this move
 					Random random = new Random();
 					int r = random.nextInt(100) + 1;
-					if(r > 10 && !move.getIsFilled() && move.getScore() == bestMove.getScore()) {
+					if(r > 50 && !move.getIsFilled() && move.getScore() == bestMove.getScore()) {
 						bestMove = move;
 					}
 
@@ -1093,7 +1093,7 @@ public class Board
 					nextMove = minValue(board[i][j], depth + 1, alpha, beta);
 
 					// if the move has less points than the best move, replace best.
-					if (!move.getIsFilled() && nextMove.getScore() > bestMove.getScore())
+					if (!move.getIsFilled() && nextMove.getScore() < bestMove.getScore())
 					{
 						bestMove = nextMove;
 					}
@@ -1164,7 +1164,7 @@ public class Board
 					{
 						break;
 					}
-					// update alpha.
+					// update beta.
 					if (move.getScore() < beta)
 					{
 						beta = move.getScore();

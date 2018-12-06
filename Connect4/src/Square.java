@@ -13,6 +13,7 @@ public class Square
 	int posY;
 	String boardPosition;
 	long score;
+	long cumulativeScore;
 
 	public Square()
 	{
@@ -62,6 +63,7 @@ public class Square
 			enemy = 'x';
 		}
 	}
+	
 
 	/**
 	 * Copy constructor
