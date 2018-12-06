@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Board
 {
@@ -967,6 +968,7 @@ public class Board
 
 	}
 
+	//Overloaded test algorithm to make sure the scoring is working.
 	public Square findBestMove(int time)
 	{
 		Square bestMove = board[1][1];
@@ -1002,15 +1004,22 @@ public class Board
 	}
 
 	/**
-	 * MiniMax recursive algorithm. a = the value of best Max, b = value of best Min
-	 * a, b initialized to hugely impossible values so that anything will be
-	 * accepted over them.
+	 * MiniMax recursive algorithm. Starts of as max, iterating through the entire board
+	 * recursively to find the best move. 
 	 * 
-	 * @return
+	 * @return true if game is over. false otherwise
 	 */
-	public Square findBestMove()
+	public Boolean findBestMove(Boolean goesFirst)
 	{
-
+		int depth;
+		//if goes first looks further ahead
+		if(goesFirst) {
+			depth = 1;
+		//looks less ahead due to scoring mechanism not stopping wins if going second.
+		} else {
+			depth = 2;
+		}
+		
 		Square bestMove = findFirstAvailableSpace();
 
 		// traverse through the board
@@ -1022,15 +1031,17 @@ public class Board
 				if (!board[i][j].getIsFilled())
 				{
 					board[i][j].setDisplay('x');
-
-					// testing to stop at this point
-					if (i == 4 && j == 4)
-					{
-						String b = "critical hit!";
-					}
+					
 
 					// Recursively call. Currently we are max, so this move will call min
-					Square move = minValue(board[i][j], 2, -1000000000, 1000000000);
+					Square move = minValue(board[i][j], depth, -2000000000,2000000000);
+					
+//					//if the move has an equal score, randomly replace the move with this move
+					Random random = new Random();
+					int r = random.nextInt(100) + 1;
+					if(r > 10 && !move.getIsFilled() && move.getScore() == bestMove.getScore()) {
+						bestMove = move;
+					}
 
 					// if the move has a better score than best move, replace best move
 					if (!move.getIsFilled() && move.getScore() > bestMove.getScore())
@@ -1046,13 +1057,17 @@ public class Board
 		}
 		bestMove.setDisplay('x');
 		// make the best move
+		
 		placeSquare(bestMove);
+		if (makeWinningMove(bestMove)) {
+			return true;
+		}
 		turnCounter++;
 		log.add(bestMove);
-		return bestMove;
+		return false;
 	}
 
-	public Square maxValue(Square move, int depth, int alpha, int beta)
+	public Square maxValue(Square move, int depth, long alpha, long beta)
 	{
 		// terminal condition, max depth reached, or no more moves available
 		if (depth == maxDepth || !moreMoves())
@@ -1105,7 +1120,7 @@ public class Board
 		return bestMove;
 	}
 
-	public Square minValue(Square move, int depth, int alpha, int beta)
+	public Square minValue(Square move, int depth, long alpha, long beta)
 	{
 		// terminal condition, max depth reached, or no more moves available
 		if (depth == maxDepth || !moreMoves())

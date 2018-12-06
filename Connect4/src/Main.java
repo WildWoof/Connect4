@@ -135,7 +135,7 @@ public class Main
 
 				// computer moves
 				System.out.println();
-				board.findBestMove();
+				board.findBestMove(computerFirst);
 				board.printDisplay();
 
 				// enter opponent move
@@ -182,7 +182,7 @@ public class Main
 
 				// computer moves
 				System.out.println();
-				board.findBestMove();
+				board.findBestMove(computerFirst);
 				board.printDisplay();
 
 			} while (board.isGameContinue());
@@ -285,7 +285,7 @@ public class Main
 			{
 				// computer moves
 				System.out.println();
-				board.findBestMove();
+				board.findBestMove(computerFirst);
 				board.printDisplay();
 
 				// enter opponent move
@@ -331,8 +331,9 @@ public class Main
 
 				// computer moves
 				System.out.println();
-				board.findBestMove();
+				board.findBestMove(computerFirst);
 				board.printDisplay();
+				
 
 			} while (board.isGameContinue());
 

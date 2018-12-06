@@ -12,7 +12,7 @@ public class Square
 	int posX;
 	int posY;
 	String boardPosition;
-	int score;
+	long score;
 
 	public Square()
 	{
@@ -116,12 +116,12 @@ public class Square
 		}
 	}
 
-	public int getScore()
+	public long getScore()
 	{
 		return score;
 	}
 
-	public void setScore(int newScore)
+	public void setScore(long newScore)
 	{
 		score = newScore;
 	}
